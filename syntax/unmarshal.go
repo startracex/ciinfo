@@ -1,3 +1,6 @@
+//go:build !goexperiment.jsonv2
+// +build !goexperiment.jsonv2
+
 package syntax
 
 import "encoding/json"
