@@ -27,14 +27,14 @@ func EnvironMap(env []string) map[string]string {
 }
 
 var GetInfo = sync.OnceValue(
-	func() *Info {
+	func() Info {
 		return GetInfoFrom(EnvironMap(os.Environ()), vendors.VendorsAll)
 	},
 )
 
-func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) *Info {
+func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) Info {
 	if isExplicitlyFalseLike(env["CI"]) {
-		return nil
+		return Info{}
 	}
 
 	info := Info{
@@ -60,7 +60,7 @@ func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) *Info {
 		info.IsCI = fromCommonKeys(env)
 	}
 
-	return &info
+	return info
 }
 
 var commonKeys = []string{

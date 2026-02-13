@@ -14,8 +14,8 @@ func TestGetInfoFrom_CIExplicitFalse(t *testing.T) {
 	}
 
 	info := GetInfoFrom(env, nil)
-	if info != nil {
-		t.Fatalf("expected nil when CI=false, got %+v", info)
+	if info.IsCI !=false {
+		t.Fatalf("IsCI should be false")
 	}
 }
 
@@ -35,10 +35,6 @@ func TestGetInfoFrom_VendorMatch(t *testing.T) {
 	}
 
 	info := GetInfoFrom(env, vlist)
-	if info == nil {
-		t.Fatal("expected info, got nil")
-	}
-
 	if !info.IsCI {
 		t.Error("IsCI should be true")
 	}
@@ -67,9 +63,6 @@ func TestGetInfoFrom_VendorNoMatch(t *testing.T) {
 	env := map[string]string{}
 
 	info := GetInfoFrom(env, vlist)
-	if info == nil {
-		t.Fatal("expected non-nil info (commonKeys may still apply)")
-	}
 
 	if info.IsCI {
 		t.Error("IsCI should be false when nothing matches")
@@ -99,10 +92,6 @@ func TestGetInfoFrom_PRMatch(t *testing.T) {
 	}
 
 	info := GetInfoFrom(env, vlist)
-	if info == nil {
-		t.Fatal("expected info, got nil")
-	}
-
 	if !info.IsPR {
 		t.Error("IsPR should be true")
 	}
@@ -114,10 +103,6 @@ func TestGetInfoFrom_CommonKeysFallback(t *testing.T) {
 	}
 
 	info := GetInfoFrom(env, nil)
-	if info == nil {
-		t.Fatal("expected info, got nil")
-	}
-
 	if !info.IsCI {
 		t.Error("IsCI should be true from common keys")
 	}
@@ -150,10 +135,6 @@ func TestGetInfoFrom_MultipleVendorsLastWins(t *testing.T) {
 	}
 
 	info := GetInfoFrom(env, vlist)
-	if info == nil {
-		t.Fatal("expected info, got nil")
-	}
-
 	if info.Name != "SecondCI" || info.ID != "SECOND" {
 		t.Errorf("last matching vendor should win, got Name=%q ID=%q", info.Name, info.ID)
 	}
