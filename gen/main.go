@@ -59,7 +59,7 @@ import (
 		buf.WriteString("}\n")
 	}
 
-	buf.WriteString("VendorsAll = []Vendor{")
+	buf.WriteString("All = []Vendor{")
 	for _, rv := range vs {
 		fmt.Fprintf(&buf, "Vendor%s,", rv.Constant)
 	}

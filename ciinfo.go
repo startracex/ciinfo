@@ -28,7 +28,7 @@ func EnvironMap(env []string) map[string]string {
 
 var GetInfo = sync.OnceValue(
 	func() Info {
-		return GetInfoFrom(EnvironMap(os.Environ()), vendors.VendorsAll)
+		return GetInfoFrom(EnvironMap(os.Environ()), vendors.All)
 	},
 )
 
