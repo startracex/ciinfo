@@ -8,11 +8,6 @@ import (
 	"github.com/startracex/ciinfo/vendors"
 )
 
-var (
-	infoOnce      sync.Once
-	infoOnceValue *Info
-)
-
 type Info struct {
 	IsPR    bool
 	IsCI    bool
@@ -31,12 +26,11 @@ func EnvironMap(env []string) map[string]string {
 	return out
 }
 
-func GetInfo() *Info {
-	infoOnce.Do(func() {
-		infoOnceValue = GetInfoFrom(EnvironMap(os.Environ()), vendors.VendorsAll)
-	})
-	return infoOnceValue
-}
+var GetInfo = sync.OnceValue(
+	func() *Info {
+		return GetInfoFrom(EnvironMap(os.Environ()), vendors.VendorsAll)
+	},
+)
 
 func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) *Info {
 	if isExplicitlyFalseLike(env["CI"]) {
