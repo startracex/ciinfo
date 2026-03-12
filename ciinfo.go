@@ -33,7 +33,7 @@ var GetInfo = sync.OnceValue(
 )
 
 func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) Info {
-	if isExplicitlyFalseLike(env["CI"]) {
+	if IsExplicitlyFalseLike(env["CI"]) {
 		return Info{}
 	}
 
@@ -57,7 +57,7 @@ func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) Info {
 	}
 
 	if !info.IsCI {
-		info.IsCI = fromCommonKeys(env)
+		info.IsCI = hasCommonKeys(env)
 	}
 
 	return info
@@ -75,7 +75,7 @@ var commonKeys = []string{
 	"RUN_ID",
 }
 
-func fromCommonKeys(env map[string]string) bool {
+func hasCommonKeys(env map[string]string) bool {
 	for _, k := range commonKeys {
 		if env[k] != "" {
 			return true
@@ -84,6 +84,6 @@ func fromCommonKeys(env map[string]string) bool {
 	return false
 }
 
-func isExplicitlyFalseLike(s string) bool {
+func IsExplicitlyFalseLike(s string) bool {
 	return s == "false" || s == "0"
 }
