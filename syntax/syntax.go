@@ -7,17 +7,17 @@ import (
 type EnvList []Env
 
 type Env struct {
-	StrictEqual string
-	Includes    string
-	EqualsAnyOf []string
 	EqualsMap   map[string]string
+	Includes    string
+	StrictEqual string
+	EqualsAnyOf []string
 }
 
 type PR struct {
-	StrictEqual string
-	NotEqual    string
-	EqualsAnyOf []string
 	EqualsMap   map[string]string
+	NotEqual    string
+	StrictEqual string
+	EqualsAnyOf []string
 }
 
 func (r *Env) Match(env map[string]string) bool {

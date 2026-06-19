@@ -10,12 +10,12 @@ import (
 )
 
 type Info struct {
-	IsPR    bool
-	IsCI    bool
-	ID      string
-	Name    string
 	Env     map[string]string
 	Vendors map[string]bool
+	ID      string
+	Name    string
+	IsCI    bool
+	IsPR    bool
 }
 
 func EnvironMap(env []string) map[string]string {
