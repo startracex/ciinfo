@@ -14,7 +14,7 @@ func TestGetInfoFrom_CIExplicitFalse(t *testing.T) {
 	}
 
 	info := GetInfoFrom(env, nil)
-	if info.IsCI !=false {
+	if info.IsCI {
 		t.Fatalf("IsCI should be false")
 	}
 }
