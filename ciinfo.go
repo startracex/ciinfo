@@ -1,6 +1,7 @@
 package ciinfo
 
 import (
+	"maps"
 	"os"
 	"strings"
 	"sync"
@@ -13,6 +14,7 @@ type Info struct {
 	IsCI    bool
 	ID      string
 	Name    string
+	Env     map[string]string
 	Vendors map[string]bool
 }
 
@@ -33,12 +35,14 @@ var GetInfo = sync.OnceValue(
 )
 
 func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) Info {
-	if IsExplicitlyFalseLike(env["CI"]) {
-		return Info{}
-	}
-
+	env = maps.Clone(env)
 	info := Info{
 		Vendors: make(map[string]bool, 2),
+		Env:     env,
+	}
+
+	if IsExplicitlyFalseLike(env["CI"]) {
+		return info
 	}
 
 	for _, vendor := range vendors {
@@ -59,7 +63,7 @@ func GetInfoFrom(env map[string]string, vendors []vendors.Vendor) Info {
 	if !info.IsCI {
 		info.IsCI = hasCommonKeys(env)
 	}
-
+	info.Env = maps.Clone(env)
 	return info
 }
 
